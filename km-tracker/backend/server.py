@@ -4,6 +4,7 @@ from fastapi import FastAPI, APIRouter
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 import os
+import httpx
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field
@@ -59,7 +60,17 @@ async def create_status_check(input: StatusCheckCreate):
 async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
-
+@api_router.get("/geocode")
+async def geocode(q: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={"q": q, "format": "json", "limit": 5},
+            headers={"User-Agent": "KMTracker/1.0"}
+        )
+        data = response.json()
+        results = [{"name": item["display_name"], "lat": float(item["lat"]), "lon": float(item["lon"])} for item in data]
+        return results
 from routers.tours import router as tours_router  # noqa: E402
 
 api_router.include_router(tours_router)
