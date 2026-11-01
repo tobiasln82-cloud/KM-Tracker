@@ -1,0 +1,287 @@
+{
+  "typography": {
+    "font_family_heading": "Outfit Variable",
+    "font_family_body": "DM Sans Variable",
+    "font_family_mono": "JetBrains Mono Variable",
+    "css_import_statement": "@import \"@fontsource-variable/outfit\";\n@import \"@fontsource-variable/dm-sans\";\n@import \"@fontsource-variable/jetbrains-mono\";",
+    "scale_px": {
+      "display": 52,
+      "h1": 40,
+      "h2": 28,
+      "h3": 20,
+      "body": 15,
+      "caption": 13
+    },
+    "rules": {
+      "headings": "font-heading font-extrabold tracking-tight text-slate-900 dark:text-slate-100",
+      "overlines": "text-xs font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400",
+      "body": "font-sans leading-relaxed text-slate-700 dark:text-slate-300",
+      "numbers": "font-mono font-bold tracking-tight"
+    }
+  },
+  "colors": {
+    "theme_preference": "light_default_with_dark_toggle",
+    "palette_name": "VeloPulse Expedition - Emerald Velocity & Slate Precision",
+    "accent": "#059669",
+    "on_accent": "#ffffff",
+    "accent_hover": "#047857",
+    "accent_glow": "rgba(5, 150, 105, 0.25)",
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#f8fafc",
+        "on_bg": "#0f172a",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#047857",
+          "error": "#b91c1c",
+          "success": "#047857",
+          "border": "#e2e8f0"
+        }
+      },
+      {
+        "name": "card_panel",
+        "kind": "solid",
+        "bg": "#ffffff",
+        "on_bg": "#0f172a",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#059669",
+          "error": "#dc2626",
+          "success": "#059669",
+          "border": "#e2e8f0"
+        }
+      },
+      {
+        "name": "glass_hud",
+        "kind": "glass",
+        "contrast_against": "#0f172a",
+        "guarantee": "backdrop-blur-md bg-white/85 border border-slate-200/80 shadow-lg dark:bg-slate-900/85 dark:border-slate-800/80",
+        "on_bg": "#0f172a",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#059669",
+          "error": "#dc2626",
+          "success": "#059669"
+        }
+      },
+      {
+        "name": "streetview_pill_btn",
+        "kind": "solid",
+        "bg": "#f59e0b",
+        "on_bg": "#1c1917",
+        "on_bg_muted": "#451a03",
+        "roles": {
+          "hover_bg": "#d97706"
+        }
+      },
+      {
+        "name": "dark_page",
+        "kind": "solid",
+        "bg": "#090d16",
+        "on_bg": "#f8fafc",
+        "on_bg_muted": "#94a3b8",
+        "roles": {
+          "link": "#34d399",
+          "error": "#f87171",
+          "success": "#34d399",
+          "border": "#1e293b"
+        }
+      },
+      {
+        "name": "dark_card_panel",
+        "kind": "solid",
+        "bg": "#111827",
+        "on_bg": "#f8fafc",
+        "on_bg_muted": "#94a3b8",
+        "roles": {
+          "link": "#34d399",
+          "error": "#f87171",
+          "success": "#34d399",
+          "border": "#1f2937"
+        }
+      },
+      {
+        "name": "badge_progress",
+        "kind": "solid",
+        "bg": "#ecfdf5",
+        "on_bg": "#065f46",
+        "on_bg_muted": "#047857"
+      }
+    ]
+  },
+  "entry_surfaces": {
+    "/": "Expedition Cockpit dashboard — live Leaflet bicycle route map with GPS waypoint HUD on left/center, fast-entry telemetry logger & real-time stats panel right"
+  },
+  "app_structure": {
+    "language": "de",
+    "layout_architecture": {
+      "header": {
+        "title": "VeloTrack — Virtuelle Radexpedition",
+        "badge": "Bicycle OSRM Edition",
+        "controls": [
+          "Route wechseln / Neu anlegen (Dialog Modal)",
+          "Archivierte Touren (Drawer / Modal)",
+          "Statistik & Wochenübersicht (Tab / Drawer)",
+          "Theme Toggle (Hell / Dunkel)"
+        ]
+      },
+      "grid_layout": "2-column asymmetric desktop dashboard: Left/Main 60% Map Canvas with floating StreetView HUD pill & GPS Waypoint tracker; Right 40% Control & Telemetry Panel (Progress Bar, Add Km Form, Milestones/Etappen, Recent Logbook Entries). Mobile stacks smoothly into sticky map viewport + scrollable action sheet."
+    }
+  },
+  "feature_specifications": {
+    "route_creation": {
+      "inputs": ["Startort (z.B. München)", "Zielort (z.B. Venedig oder Berlin)"],
+      "autocomplete_provider": "Nominatim (OpenStreetMap geocoding with debounce 300ms)",
+      "routing_service": "OSRM Bicycle profile (bike-friendly route coordinates & total distance calculation in km)",
+      "presets_available": [
+        {"name": "Alpenüberquerung: München → Venedig", "start": "München, Deutschland", "destination": "Venedig, Italien", "approx_km": 560},
+        {"name": "Donauradweg: Passau → Wien", "start": "Passau, Deutschland", "destination": "Wien, Österreich", "approx_km": 320},
+        {"name": "Rheinradweg: Basel → Rotterdam", "start": "Basel, Schweiz", "destination": "Rotterdam, Niederlande", "approx_km": 820},
+        {"name": "Ostseeküstenradweg: Lübeck → Stralsund", "start": "Lübeck, Deutschland", "destination": "Stralsund, Deutschland", "approx_km": 285}
+      ]
+    },
+    "map_and_tracking": {
+      "library": "leaflet & react-leaflet with Leaflet tile layer (OpenStreetMap / Carto Positron)",
+      "visual_route_rendering": {
+        "remaining_path_style": "dashed line #94a3b8 or #64748b, weight 4",
+        "completed_path_style": "solid glowing neon emerald line #059669 / #10b981, weight 6",
+        "start_marker": "Emerald Flag icon with label",
+        "destination_marker": "Checkered Flag icon with label",
+        "current_position_marker": "Animated Pulsing Cyclist Pin (Custom SVG with directional glow)"
+      },
+      "street_view_feature": {
+        "button_label": "Google Street View öffnen",
+        "mechanism": "Generates direct URL `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}` and opens in a new tab with rel='noopener noreferrer'",
+        "reverse_geocoding": "Shows current approximate town/region name near current coordinate (e.g. 'In der Nähe von Rovereto')"
+      }
+    },
+    "kilometer_entry": {
+      "fields": [
+        {"name": "date", "label": "Datum der Ausfahrt", "type": "date", "default": "today"},
+        {"name": "km", "label": "Gefahrene Kilometer (km)", "type": "number", "min": 0.1, "step": 0.1, "placeholder": "z.B. 24.5"},
+        {"name": "note", "label": "Notiz / Rollentraining Notiz", "type": "text", "placeholder": "z.B. Abends auf dem Smart-Trainer, Regen draußen"}
+      ],
+      "actions": [
+        "Eintrag speichern (+ Button mit Animation)",
+        "Schnellwahl-Buttons: +5 km, +10 km, +25 km, +50 km für Smart Trainer Workouts"
+      ]
+    },
+    "progress_metrics": {
+      "cards": [
+        {"label": "Gefahren", "key": "completed_km", "unit": "km"},
+        {"label": "Verbleibend", "key": "remaining_km", "unit": "km"},
+        {"label": "Gesamtdistanz", "key": "total_km", "unit": "km"},
+        {"label": "Fortschritt", "key": "percentage", "unit": "%"}
+      ],
+      "progress_bar": "Segmented energetic gradient bar (Emerald to Amber to Cyan) with percentage indicator & target milestone flag",
+      "completion_celebration": {
+        "trigger": "completed_km >= total_km",
+        "ui": "Full-screen celebration modal with confetti effect, badge 'Etappensieg erreicht! 🏆', certificate of completion, and instant action button 'Nächste Tour planen & starten'"
+      }
+    },
+    "log_history_and_stats": {
+      "history_table": "Collapsible log list with Date, Km, Note, and Delete button with confirmation",
+      "stats_chart": "Recharts Weekly & Daily bar chart showing kilometers ridden over time",
+      "archive_system": "View past completed routes with completion date, total days taken, and average daily km"
+    }
+  },
+  "component_structure": {
+    "components": [
+      {
+        "file": "frontend/src/components/NavigationHeader.tsx",
+        "description": "Top bar with App title, active route snippet, 'Neue Route' dialog trigger, 'Archiv' trigger, and Dark/Light toggle."
+      },
+      {
+        "file": "frontend/src/components/RouteMap.tsx",
+        "description": "Interactive Leaflet map showing full polyline, completed sub-polyline, start/finish flags, and pulsing current cyclist marker with Street View action pill."
+      },
+      {
+        "file": "frontend/src/components/StreetViewFloatingCard.tsx",
+        "description": "Floating glassmorphic HUD pill on the map displaying current calculated lat/lon, nearest town estimate, and bold Google Street View launcher button."
+      },
+      {
+        "file": "frontend/src/components/ProgressCard.tsx",
+        "description": "Hero stats row showing completed km, remaining km, total km, completion % and high-contrast dynamic progress bar."
+      },
+      {
+        "file": "frontend/src/components/KmEntryForm.tsx",
+        "description": "Fast-entry form with date picker, km numeric input, preset chips (+5km, +10km, +25km, +50km), optional note, and submit CTA."
+      },
+      {
+        "file": "frontend/src/components/EntryHistoryList.tsx",
+        "description": "Card showing ride history logs with delete action per item, timestamps, and empty state guidance."
+      },
+      {
+        "file": "frontend/src/components/StatisticsModal.tsx",
+        "description": "Dialog or tab with Recharts weekly riding bar chart, streaks, average km/day, and riding metrics."
+      },
+      {
+        "file": "frontend/src/components/NewRouteDialog.tsx",
+        "description": "Modal with Start & Ziel Nominatim autocomplete search, curated preset routes, and route preview with elevation / distance."
+      },
+      {
+        "file": "frontend/src/components/ArchiveDialog.tsx",
+        "description": "Modal showing list of completed virtual tours with achievement badges."
+      },
+      {
+        "file": "frontend/src/components/CelebrationModal.tsx",
+        "description": "Modal popping up when a route reaches 100% with confetti animation, tour summary, and 'Next Tour' trigger."
+      }
+    ]
+  },
+  "motion_and_interactions": {
+    "map_pan_on_entry": "Smooth flyTo animation on Leaflet map to the current calculated waypoint when a new km entry is logged",
+    "pulsing_marker": "CSS keyframe pulse animation around the current cyclist position marker ring",
+    "progress_fill": "motion.div width transition with spring easing (stiffness: 100, damping: 15)",
+    "entry_item_stagger": "List item exit/enter slide-down animation with AnimatePresence",
+    "confetti": "Lightweight canvas confetti trigger upon 100% goal reached"
+  },
+  "accessibility_and_contrast": {
+    "focus_rings": "focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 outline-none",
+    "aria_roles": "aria-live='polite' for km progress announcements, role='progressbar' with aria-valuenow and aria-valuemax",
+    "data_testids": {
+      "new_route_btn": "new-route-dialog-trigger",
+      "route_start_input": "route-start-search-input",
+      "route_dest_input": "route-destination-search-input",
+      "route_submit_btn": "create-route-submit-btn",
+      "street_view_btn": "open-google-streetview-btn",
+      "km_input": "km-entry-input",
+      "date_input": "km-date-input",
+      "note_input": "km-note-input",
+      "save_entry_btn": "save-km-entry-btn",
+      "progress_bar": "route-progress-bar",
+      "completed_km_display": "completed-km-metric",
+      "remaining_km_display": "remaining-km-metric",
+      "total_km_display": "total-km-metric",
+      "entry_history_list": "entry-history-container",
+      "delete_entry_btn": "delete-km-entry-btn",
+      "archive_modal_trigger": "archive-modal-trigger",
+      "stats_modal_trigger": "stats-modal-trigger",
+      "theme_toggle_btn": "theme-toggle-btn"
+    }
+  },
+  "dependencies_needed": {
+    "frontend": [
+      "leaflet",
+      "@types/leaflet",
+      "canvas-confetti",
+      "@types/canvas-confetti"
+    ],
+    "css_assets": [
+      "leaflet/dist/leaflet.css"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install leaflet and @types/leaflet plus canvas-confetti via yarn in frontend directory.",
+    "Import leaflet/dist/leaflet.css in index.css or main.tsx and fix default Leaflet marker icon asset resolution issues.",
+    "Implement OSRM bicycle routing backend API proxy or direct query: `https://router.project-osrm.org/route/v1/biking/${startLon},${startLat};${destLon},${destLat}?overview=full&geometries=geojson`.",
+    "Calculate the exact current coordinate along the GeoJSON Linestring based on cumulative completed kilometers.",
+    "Create rich default seed data with a pre-configured exciting route (e.g. München nach Venedig, 560 km, with 142.5 km already ridden and 4 history entries) so the app looks vibrant immediately on first load.",
+    "Ensure the Google Street View button creates a direct tab `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}` based on the exact calculated current coordinate.",
+    "Ensure all text is in polished German language ('Virtuelle Radtour', 'Gefahrene Strecke', 'Kilometer eintragen', 'Street View öffnen', etc.).",
+    "Support quick-add buttons (+5, +10, +25, +50 km) for rapid testability and treadmill/indoor trainer logging convenience.",
+    "Persist routes, entries, and archive in MongoDB backend with clean fallback to sample state if backend is offline."
+  ]
+}
