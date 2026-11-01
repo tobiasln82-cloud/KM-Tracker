@@ -92,3 +92,16 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+import httpx
+
+@app.get("/geocode")
+async def geocode(q: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={"q": q, "format": "json", "limit": 5},
+            headers={"User-Agent": "KMTracker/1.0"}
+        )
+        data = response.json()
+        results = [{"name": item["display_name"], "lat": float(item["lat"]), "lon": float(item["lon"])} for item in data]
+        return results
