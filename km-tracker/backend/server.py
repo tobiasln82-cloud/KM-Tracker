@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import uuid
 from datetime import datetime
-
+import httpx
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -66,6 +66,19 @@ api_router.include_router(tours_router)
 
 # Include the router in the main app
 app.include_router(api_router)
+
+# Geocoding-Endpunkt direkt an die Haupt-App angebunden (/geocode)
+@app.get("/geocode")
+async def geocode(q: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={"q": q, "format": "json", "limit": 5},
+            headers={"User-Agent": "KMTracker/1.0"}
+        )
+        data = response.json()
+        results = [{"name": item["display_name"], "lat": float(item["lat"]), "lon": float(item["lon"])} for item in data]
+        return results
 
 app.add_middleware(
     CORSMiddleware,
